@@ -4,13 +4,13 @@ import pandas as pd
 from sqlalchemy import create_engine
 import logging
 import sys
-from config import DATABASE_CONFIG, CSV_FILES, LOG_FILE
+from config import DATABASE_CONFIG, CSV_FILES, LOG_FILE # Importamos la informacion de configuracion
 
 # Configuración de Logging
 logging.basicConfig(
     filename=LOG_FILE,
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    format='%(asctime)s - %(levelname)s - %(message)s' # Formato de estructura como se imprimira los mensajes
 )
 
 def create_db_engine(config):
@@ -19,14 +19,14 @@ def create_db_engine(config):
     """
     try:
         engine = create_engine(
-            f"mysql+mysqlconnector://{config['user']}:{config['password']}@{config['host']}:{config['port']}/{config['database']}",
+            f"mysql://{config['user']}:{config['password']}@{config['host']}:{config['port']}/{config['database']}",
             echo=False
         )
         logging.info("Conexión a la base de datos establecida correctamente.")
         return engine
     except Exception as e:
         logging.error(f"Error al conectar a la base de datos: {e}")
-        sys.exit(1)
+        sys.exit(1) # Salida del script
 
 def read_csv(file_path):
     """
@@ -47,7 +47,7 @@ def transform_customers(df):
     # Ejemplo: Convertir correos electrónicos a minúsculas
     df['customer_email'] = df['customer_email'].str.lower()
     # Validar campos obligatorios
-    if df[['customer_fname', 'customer_lname', 'customer_email']].isnull().any().any():
+    if df[['customer_fname', 'customer_lname', 'customer_email']].isnull().any().any(): #primer any a nivel de columna, el segundo es las 3 col
         logging.error("Datos faltantes en el DataFrame de customers.")
         sys.exit(1)
     return df
@@ -88,7 +88,7 @@ def transform_orders(df, customers_df):
     Realiza transformaciones específicas en el DataFrame de orders.
     """
     # Convertir order_date a datetime
-    df['order_date'] = pd.to_datetime(df['order_date'], errors='coerce')
+    df['order_date'] = pd.to_datetime(df['order_date'], errors='coerce') #Nan
     if df['order_date'].isnull().any():
         logging.error("Hay valores inválidos en order_date.")
         sys.exit(1)

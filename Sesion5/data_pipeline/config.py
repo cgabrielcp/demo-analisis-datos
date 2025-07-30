@@ -1,7 +1,7 @@
 # config.py
 
 DATABASE_CONFIG = {
-    'host': 'localhost',
+    'host': '127.0.0.1',
     'port': 3310,
     'user': 'root',
     'password': 'root',

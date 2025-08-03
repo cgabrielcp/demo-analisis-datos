@@ -13,6 +13,7 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s' # Formato de estructura como se imprimira los mensajes
 )
 
+
 def create_db_engine(config):
     """
     Crea una conexión de motor a la base de datos MySQL.
